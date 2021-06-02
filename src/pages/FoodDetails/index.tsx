@@ -74,9 +74,20 @@ const FoodDetails: React.FC = () => {
   useEffect(() => {
     async function loadFood(): Promise<void> {
       // Load a specific food with extras based on routeParams id
-      api.get(`foods/${routeParams.id}`).then(response => {
-        setFood(response.data);
-      });
+      const response = await api.get(`foods/${routeParams.id}`);
+      if (response.status === 200) {
+        setFood({
+          ...response.data,
+          formattedPrice: formatValue(response.data.price),
+        });
+      }
+
+      setExtras(
+        response.data.extras.map((extra: Omit<Extra, 'quantity'>) => ({
+          ...extra,
+          quantity: 0,
+        })),
+      );
     }
 
     loadFood();
@@ -145,14 +156,20 @@ const FoodDetails: React.FC = () => {
 
   async function handleFinishOrder(): Promise<void> {
     // Finish the order and save on the API
-    api.post('orders', {
+    const orderProduct = {
       product_id: food.id,
       name: food.name,
       description: food.description,
       price: food.price,
       thumbnail_url: food.image_url,
-      extras,
-    });
+      extras: {
+        name: extras.name,
+        value: extras.value,
+        quantity: extras.quantity,
+      },
+    };
+
+    await api.post('/orders', orderProduct);
 
     navigation.navigate('DashboardStack');
   }
