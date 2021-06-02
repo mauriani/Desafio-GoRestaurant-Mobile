@@ -156,20 +156,18 @@ const FoodDetails: React.FC = () => {
 
   async function handleFinishOrder(): Promise<void> {
     // Finish the order and save on the API
-    const orderProduct = {
-      product_id: food.id,
-      name: food.name,
-      description: food.description,
-      price: food.price,
-      thumbnail_url: food.image_url,
-      extras: {
-        name: extras.name,
-        value: extras.value,
-        quantity: extras.quantity,
-      },
+
+    const { name, description, formattedPrice, image_url } = food;
+
+    const productOrder = {
+      name,
+      description,
+      price: formattedPrice,
+      image_url,
+      extras: [...extras],
     };
 
-    await api.post('/orders', orderProduct);
+    await api.post('/orders', productOrder);
 
     navigation.navigate('DashboardStack');
   }

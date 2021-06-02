@@ -30,6 +30,7 @@
   ],
   "rules": {
     "camelcase": "off",
+    "object-shorthand":"off",
     "prettier/prettier": "error",
     "no-use-before-define": "off",
     "no-underscore-dangle": "off",
