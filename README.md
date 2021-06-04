@@ -1,4 +1,4 @@
-#GoRestaurant Mobile
+# GoRestaurant Mobile
 ![image](https://user-images.githubusercontent.com/32397288/120808597-9a668480-c51f-11eb-8349-902994072097.png)
 
 ## **🚀 Sobre o projeto**
